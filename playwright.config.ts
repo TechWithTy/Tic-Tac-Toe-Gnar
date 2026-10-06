@@ -1,5 +1,9 @@
 import { defineConfig, devices } from '@playwright/test';
 
+const host = process.env.HOST ?? '127.0.0.1';
+const port = process.env.PORT ?? '5173';
+const baseURL = `http://${host}:${port}`;
+
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -33,7 +37,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: `http://${process.env.HOST}:${process.env.PORT}`,
+    baseURL,
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
     actionTimeout: 0,
 
@@ -84,7 +88,8 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'npm run dev',
-    port: process.env.PORT as number | undefined
+    command: `npm run dev -- --host ${host} --port ${port} --strictPort`,
+    url: baseURL,
+    reuseExistingServer: process.env.CI !== 'true'
   }
 });

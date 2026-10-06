@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 
-test('Test browsers', async ({ page }) => {
+test('shows the Big Tic Tac Toe page title', async ({ page }) => {
   await page.goto('/');
 
-  await expect(page).toHaveTitle('Vite React.js TypeScript & Shadcn/ui — Template');
+  await expect(page).toHaveTitle('Big Tic Tac Toe');
 });
